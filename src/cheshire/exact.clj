@@ -2,7 +2,7 @@
   (:require [cheshire.factory :as factory]
             [cheshire.parse :as parse]
             [cheshire.core :as core])
-  (:import (java.io StringReader Reader BufferedReader
+  (:import (java.io StringReader Reader
                     Writer)
            (com.fasterxml.jackson.core JsonFactory)))
 
@@ -25,7 +25,7 @@
      (let [jp (.createParser ^JsonFactory (or factory/*json-factory*
                                               factory/json-factory)
                              ^Reader (StringReader. string))]
-       (exact-parse jp (parse/parse jp key-fn nil array-coerce-fn))))))
+       (exact-parse jp (parse/parse jp key-fn nil nil array-coerce-fn))))))
 
 (defn parse-string-strict
   ([string] (parse-string-strict string nil nil))
@@ -35,7 +35,7 @@
      (let [jp (.createParser ^JsonFactory (or factory/*json-factory*
                                               factory/json-factory)
                              ^Writer (StringReader. string))]
-       (exact-parse jp (parse/parse-strict jp key-fn nil array-coerce-fn))))))
+       (exact-parse jp (parse/parse-strict jp key-fn nil nil array-coerce-fn))))))
 
 (def decode parse-string)
 (core/copy-arglists decode parse-string)
